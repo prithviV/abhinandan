@@ -1,6 +1,6 @@
 // JavaScript Document
-var messages = {
+var errors = {
 	loginError: 'UserName and Password are incorrect. Please try again'
 	
 };
-module.exports = messages;
+module.exports = errors;

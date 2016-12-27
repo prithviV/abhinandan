@@ -1,0 +1,36 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			{{>navigation}}
+		</div>
+		<div class="col-md-3">
+			<div>
+			  <!-- Nav tabs -->
+			  <ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a href="#addElements" aria-controls="addElements" role="tab" data-toggle="tab">Add Element</a></li>
+				<li role="presentation"><a href="#elementSettings" aria-controls="elementSettings" role="tab" data-toggle="tab">Element Settings</a></li>
+			  </ul>
+			
+			  <!-- Tab panes -->
+			  <div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="addElements">
+					{{>elements}}
+				</div>
+				<div role="tabpanel" class="tab-pane" id="elementSettings">
+					{{>elementSettings}}
+				</div>
+			  </div>
+			
+			</div>
+			
+		</div>
+		<div class="col-md-9">
+			<div class="panel panel-primary">
+			  <div class="panel-heading">Drag there elements to builder</div>
+			  <div class="panel-body">
+				Drop your content here
+			  </div>
+			</div>
+		</div>
+	</div>
+</div>

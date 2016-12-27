@@ -2,8 +2,16 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
         	<div class="page-header">
-              <h1>ADMIN LOGIN {{error}}</h1>
+              <h1>ADMIN LOGIN</h1>
             </div>
+			
+			{{#if error }}
+				<div class="alert alert-danger" role="alert">
+				  <span class="sr-only">Error:</span>
+				  {{error}}
+				</div>
+			{{/if}}
+			
             <div class="well well-lg">
                 <form action="/login" method="post">
                   <div class="form-group">
