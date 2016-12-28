@@ -23,6 +23,8 @@ app.use(session({ secret: 'Abhinandan', resave: true, saveUninitialized: true })
 //serve static pages
 app.use('/bootstrap/', express.static(__dirname + '/node_modules/bootstrap/'));
 app.use('/jquery/', express.static(__dirname + '/node_modules/jquery/'));
+app.use('/handlebars/', express.static(__dirname + '/node_modules/handlebars/'));
+app.use('/static/', express.static(__dirname + '/app/static/'));
 
 //bordyparser adds the form data requested with out which we won't be able to read the submitted formdata
 app.use(bodyParser.urlencoded({extended: true}))
