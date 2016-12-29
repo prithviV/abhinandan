@@ -12,7 +12,7 @@ global.base = path;
 //route/controllers
 var login = require('./app/controllers/login');
 //route/controllers
-var admin = require('./app/controllers/admin/admin');
+var admin = require('./app/controllers/admin');
 //route/controllers
 var error404 = require('./app/controllers/404');
 /*session*/
@@ -33,11 +33,11 @@ login(app, errors);
 //map the routes for login
 admin(app, errors);
 /*handle 404 issues*/
-error404(app, errors);
+//error404(app, errors);
 
 
 /*templating*/
-app.engine('handlebars', hbs({defaultLayout: 'main', layoutsDir: __dirname + '/app/views/layouts', partialsDir: [ __dirname + '/app/views/partials',__dirname + '/app/views/admin/partials']}));
+app.engine('handlebars', hbs({defaultLayout: 'main', layoutsDir: __dirname + '/app/views/layouts', partialsDir: [ __dirname + '/app/views/partials']}));
 //setting up views path
 app.set('views', path.join(__dirname, '/app/views'));
 

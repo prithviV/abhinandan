@@ -7,10 +7,10 @@ var Schema = mongoose.Schema;
 var userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: Array
+  role: {type: String}
 });
 
 //create model using schema
-var users = mongoose.model('User', userSchema);
+var users = mongoose.model('users', userSchema);
 
 module.exports = users;

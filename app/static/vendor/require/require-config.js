@@ -8,7 +8,8 @@ var require = {
         "jquery" : "/jquery/dist/jquery.min",
         "handlebars": "/static/vendor/handlebars-v4.0.5",
         "bootstrap" :  "/bootstrap/dist/js/bootstrap.min",
-        "structure": "structure/structure",
-        "input": "components/input/input"
+        "element": "config/element",
+        "structure": "config/structure",
+        "input": "components/input/input"        
     }
 };

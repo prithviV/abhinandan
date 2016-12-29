@@ -15,13 +15,14 @@ module.exports = function(app, errMsg) {
 		.post('/login', function (req, res) {
 			
 			users.find({ username: req.body.userName, password: req.body.userPassword }, function(err, users){
-				console.log(users.length);
+				
 				if ( err ) {
 					res.render('404', {error: err});
 				}
 				if (users.length) {
 					req.session.admin = true;
-					res.redirect(307, '../admin');
+					req.session.username = req.body.userName;
+					res.redirect(307, '/admin');
 				} else {
 					res.render('login', {error: errMsg.loginError});	
 				}

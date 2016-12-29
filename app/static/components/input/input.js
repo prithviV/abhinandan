@@ -1,22 +1,27 @@
 // JavaScript Document
-define(['jquery', 'handlebars'], function($, handlebars){
-    
-    var configuration =  {
+define(['jquery', 'element'], function($, Element){
+    var Input = function(){};
+    Input.prototype = Object.create(Element.prototype);
+    Input.prototype.configuration = {
         label: {
             type: 'string',
-            value: 'Label'
+            value: 'Label Name'
         },
         element: {
             type: 'hidden',
             value: 'input'
         },
+        type: {
+            type: 'string',
+            value: 'text'
+        },
         name: {
             type: 'string',
-            value: 'Label'
+            value: 'default_NAME'
         },
         id: {
             type: 'string',
-            value: 'Label'
+            value: 'default_ID'
         },
         required: {
             type: 'string',
@@ -24,16 +29,20 @@ define(['jquery', 'handlebars'], function($, handlebars){
         },
         placeholder: {
             type: 'string',
-            value: 'Label'
+            value: 'placeholder'
+        },
+        value: {
+            type: 'string',
+            value: ''
         },
         'width': {
             type: 'select',
-            value: '12',
+            value: 'col-md-12',
             options: {
-                'colmd01': '1',
-                'colmd02': '2',
-                'colmd03': '3',
-                'colmd04': '4',
+                'col-md-1': '1',
+                'col-md-2': '2',
+                'col-md-3': '3',
+                'col-md-4': '4',
                 'col-md-5': '5',
                 'col-md-6': '6',
                 'col-md-7': '7',
@@ -41,38 +50,10 @@ define(['jquery', 'handlebars'], function($, handlebars){
                 'col-md-9': '9',
                 'col-md-10': '10',
                 'col-md-11': '11',
-                'col-md-12': '12',
+                'col-md-12': '12'
             }
         }
-
     };
-
-    return {
-        getConfig: function() {
-            return config;
-        },
-        getView: function( config ){
-            var template = '';
-            if ( !config ) {
-                config = configuration;
-            }
-            
-           $.ajax({
-                url : 'static/components/input/input.handlebars',
-                success : function (data) {
-                    template = handlebars.compile(data);
-                },
-                error: function(error){
-                    template = 'Unable to load the required element'
-                },
-                dataType: "text",
-                async : false
-            });
-        return template(config);
-        },
-        getHtml: function( config ) {
-            
-        }
-    };
-
-})
+    window.Elements.input = Input;
+return Input;
+});
