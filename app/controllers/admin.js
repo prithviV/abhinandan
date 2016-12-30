@@ -1,81 +1,153 @@
 // JavaScript Document
 var formModel = require('../models/forms');
+var mongoose = require('../models/mongoose');
 
-module.exports = function(app, errMsg) {
+module.exports = function(app, messages) {
 	//show login page
 	app
+	/*
+	MANAGE ADMIN PAGE
+	*/
 	.get('/admin', function (req, res) {
-		res.redirect('/login');
+		var params = [];
+		for (p in req.params) {
+			params.push[req.params[p]];
+		}
+		if (params.length == 0 && req.session.admin) {
+			res.render('admin', {userName: req.session.username});
+		} else {
+			res.redirect('/login');
+		}
+		
 	})
 	.post('/admin', function (req, res) {
-		console.log(req.session.admin);
+		
 		if (req.session.admin) {
 			res.render('admin', {userName: req.session.username});
-			req.session.admin = false;
+			
 		} else {
 			//send login page
-		  	res.render('login', {error:errMsg.sessionError});		
+			req.session.destroy();
+		  	res.render('login', {error: messages.sessionError});
+			
 		}
 		
 	})
 	.get('/admin/logoff', function (req, res) {
 		res.redirect('/login');
 	})
-	.post('/admin/saveFormBuilder', function(req, res) {
+	/*
+	FORM BUILDER CHANGES OR UPDATES OR NEW RECORDS
+	*/
+	.post('/admin/saveForm', function(req, res) {
 		var message = {result: ''};
-		
+		console.log(req.body);
 		formModel.find({ ID: req.body.ID }, function(err, form){
 			//if there is any server error then handle it
-			
+			console.log(form);
 			if ( err ) {
 				message.result = err;
-				res.send(message);
+				res.redirect('404', {error: err});
 			}
-			console.log('forms found in the db');
-			console.log(form)
+			
 			// if record / form already exist then just update the form's data in DB
 			if (form.length) {
 				form[0].NAME = req.body.NAME;
 				form[0].CONTENT = req.body.CONTENT;
+				//update new record
 				form[0].save(function(err, saved, affected){
 					if(err) {
-						message.result = 'unable to update the date for form ' + req.body.ID;
-						res.send(message);
+						message.result = messages.unableToUpdate + req.body.ID;
+						res.redirect('404', {error: err});
 					}
 					if (saved) {
-						message.result = 'Updated data for form ' + req.body.ID;
+						message.result = messages.unableToUpdate + req.body.ID;
 						res.send(message);
 					}
-					
+
 				});
 				
 			} else {
-				//if recode / form does not exist then add a new record to the DB
+				//if record / form does not exist then add a new record to the DB
 				var dataToSave = {
 					ID: req.body.ID,
 					NAME: req.body.NAME,
 					CONTENT: req.body.CONTENT
 				};
 				var data = new formModel(dataToSave);
+				//save new record
 				data.save(function(err, saved, affected){
-					
 					if(err) {
-						console.log('Unable to save the data for form')
-						console.log(err)
-						message.result = 'Unable to save the data for form ' + req.body.ID;
+						message.result = messages.savedData + req.body.ID;
+						res.redirect('404', {error: err});
 					}
 					if (saved) {
-						console.log('Saved the data for form')
-						console.log(saved)
-						message.result = 'Saved the data for form ' + req.body.ID;
+						message.result = messages.savedData + req.body.ID;
+						res.send(message);
+					} else {
+						res.redirect('404', {error: err});
 					}
-					res.send(message);
+					
 				});
 			}
 		});
 
 		
 		
+	})
+
+	/*
+	VIEW AVAILABLE FORMS
+	*/
+	.get('/admin/view', function (req, res) {
+		formModel.find().then(function(data){
+			if ( !data.length ) {
+				res.render('view', {});
+			} else {
+				res.render('view', {records: data});
+			}
+			
+		});
+		
+	})
+
+	/*
+	VIEW SINGLE FORM
+	*/
+	.get('/admin/edit/:ID', function (req, res) {
+		console.log('asdfasdf');
+		res.render('admin', {userName: req.session.userName, formRequest: {ID: req.params.ID}});
+	})
+
+	/*
+	 * GET SINGLE FORM for EDITING
+	*/
+	.post('/admin/edit', function (req, res) {
+		
+		formModel.find({ID: req.body.ID}, function(err, doc){
+			if (err) {
+				res.render('404', {error: messages.unableToDelete});
+			}
+			if (doc.length) {
+				res.send(doc[0]);
+			} else {
+				res.render('404', {error: messages.unableToDelete});
+			}
+		});
+		
+	})
+	/*
+		DELETE RECORD
+	 */
+	.get('/admin/delete/:ID', function (req, res) {
+		formModel.findOneAndRemove({ID: req.params.ID}, function(err, doc){
+			if (err) {
+				res.render('404', {error: messages.unableToDelete});
+			}
+			if (doc) {
+				res.redirect('/admin/view');
+			}
+		});
 	})
 	
 };

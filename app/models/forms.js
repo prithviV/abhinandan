@@ -6,7 +6,6 @@ var Schema = mongoose.Schema;
 // create a schema
 var formDataSchema = new Schema({
   ID: { type: String, required: true, unique: true },
-  NAME: { type: String, required: true },
   CONTENT: []
 });
 

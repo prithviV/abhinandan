@@ -7,8 +7,7 @@ var hbs = require('express-handlebars');
 var bodyParser =  require('body-parser');
 var session = require('express-session');
 //error messages
-var errors = require('./app/models/errors');
-global.base = path;
+var messages = require('./app/messages/messages');
 //route/controllers
 var login = require('./app/controllers/login');
 //route/controllers
@@ -29,15 +28,15 @@ app.use('/static/', express.static(__dirname + '/app/static/'));
 //bordyparser adds the form data requested with out which we won't be able to read the submitted formdata
 app.use(bodyParser.urlencoded({extended: true}))
 //map the routes for login
-login(app, errors);
+login(app, messages);
 //map the routes for login
-admin(app, errors);
+admin(app, messages);
 /*handle 404 issues*/
-//error404(app, errors);
+error404(app, messages);
 
 
 /*templating*/
-app.engine('handlebars', hbs({defaultLayout: 'main', layoutsDir: __dirname + '/app/views/layouts', partialsDir: [ __dirname + '/app/views/partials']}));
+app.engine('handlebars', hbs({defaultLayout: 'main', layoutsDir: __dirname + '/app/views/layouts', partialsDir: [ __dirname + '/app/views/partials', __dirname + '/app/static/components/input']}));
 //setting up views path
 app.set('views', path.join(__dirname, '/app/views'));
 

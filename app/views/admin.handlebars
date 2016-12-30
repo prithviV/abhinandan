@@ -3,51 +3,54 @@
 		<div class="col-md-12">
 			{{>navigation}}
 		</div>
-		<div class="col-md-3">
-			<div>
-			  <!-- Nav tabs -->
-			  <ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active"><a href="#addElements" aria-controls="addElements" role="tab" data-toggle="tab">Add Element</a></li>
-				<li role="presentation"><a href="#elementSettings" aria-controls="elementSettings" role="tab" data-toggle="tab">Element Settings</a></li>
-			  </ul>
-			
-			  <!-- Tab panes -->
-			  <div class="tab-content">
-				<div role="tabpanel" class="tab-pane active" id="addElements">
-					<div class="panel panel-info">
-						<div class="panel-heading">Click Elements below to add them to builder</div>
-						<div class="panel-body">
-							<ul class="list-group">
-								<li class="list-group-item">Input</li>
-							<ul>
-						</div>
-					</div>
-				</div>
-				<div role="tabpanel" class="tab-pane" id="elementSettings">
-					<div class="panel panel-default">
-						<div class="panel-heading">Settings</div>
-						<div class="panel-body">
-								
-						</div>
-					</div>
-				</div>
-			  </div>
-			
-			</div>
-			
-		</div>
-		<div class="col-md-9">
-			<div class="panel panel-primary">
-			  <div class="panel-heading">Click elements on the left to add them below <button id="saveFormBuilder" class="btn btn-success btn-xs pull-right">SAVE CHANGES TO DB</button></div>
-			  <div class="panel-body">
-					<div>
-						<form id="builder">
-							
 
-						</form>	
+		<div class="col-md-12">
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist" id="builderTabs">
+				<li role="presentation" class="active"><a href="#editMode" aria-controls="editMode" role="tab" data-toggle="tab">EDIT MODE</a></li>
+				<li role="presentation"><a href="#previewMode" aria-controls="previewMode" role="tab" data-toggle="tab">PREVIEW MODE</a></li>
+			</ul>
+			
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="editMode">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							{{!--INFORMATOINAL PURP0SE--}}
+							{{#if formRequest}}
+								YOU ARE EDITING AN EXISTING RECORD	<span class="label label-warning">{{formRequest.ID}}</span>
+							{{else}}
+								CREATE A NEW FORM AND CLICK ON 'SAVE' BUTTON (Please do not <span class="label label-warning">refresh </span> the page while creating new form)
+							{{/if}}
+							
+						</div>
+						<div class="panel-body">
+							<div>
+								{{!--this variable requests form to be edited/displayed form the db--}}
+								{{#if formRequest}}
+									<form id="builder" class="build-wrap" data-request-form="{{formRequest.ID}}"></form>	
+								{{else}}
+									<form id="builder" class="build-wrap"></form>	
+								{{/if}}
+							</div>
+						</div>
 					</div>
-			  </div>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="previewMode">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							PREVIEW MODE ENABLED
+						</div>
+						<div class="panel-body">
+							<form id="builderPreview">
+								<!--here comes the preview mode-->
+							</form>
+						</div>
+					</div>	
+				</div>
 			</div>
 		</div>
+
+		
 	</div>
 </div>

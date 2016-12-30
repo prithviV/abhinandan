@@ -1,0 +1,39 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			{{>navigation}}
+		</div>
+	</div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading">Available tables</div>
+                {{#if records}}
+                    <table class="table table-hover">
+                        <tr>
+                            <th>REFFERENCE</th>
+                            <th>ELEMENTS PRESENT</th>
+                            <th>EDIT</th>
+                            <th>DELETE</th>
+                        </tr>
+                        {{#each records as |record recordIntex|}}
+                        <tr>
+                            <td>{{record.ID}}</td>
+                            <td>{{record.CONTENT.length}} elements present</td>
+                            <td><a href="/admin/edit/{{record.ID}}" class="glyphicon glyphicon-pencil"></a></td>
+                            <td><a href="/admin/delete/{{record.ID}}" class="glyphicon glyphicon-trash"></a></td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                    
+                {{else}}
+                    <div class="panel-body">
+                        No saved forms found. Please create new form to view.
+                    </div>
+                {{/if}}
+                
+            </div>
+        </div>
+    </div>
+</div>
