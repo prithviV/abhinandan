@@ -14,9 +14,20 @@ var login = require('./app/controllers/login');
 var admin = require('./app/controllers/admin');
 //route/controllers
 var error404 = require('./app/controllers/404');
+var passportUpdated = require('./app/controllers/passport');
+/*LOGIN AUTHENTICATION */
+var passport = require('passport');
+var flash = require('connect-flash');
 /*session*/
 app.use(session({ secret: 'Abhinandan', resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
 
+//passport 
+app.use(flash());
+app.use(passport.session());
+
+/*passport middlewear */
+passportUpdated(passport);
 
 /*middlewear*/
 //serve static pages
@@ -28,9 +39,9 @@ app.use('/static/', express.static(__dirname + '/app/static/'));
 //bordyparser adds the form data requested with out which we won't be able to read the submitted formdata
 app.use(bodyParser.urlencoded({extended: true}))
 //map the routes for login
-login(app, messages);
+login(app, passport, messages);
 //map the routes for login
-admin(app, messages);
+admin(app, passport, messages);
 /*handle 404 issues*/
 error404(app, messages);
 

@@ -1,24 +1,20 @@
 // JavaScript Document
 var formModel = require('../models/forms');
 var mongoose = require('../models/mongoose');
-
-module.exports = function(app, messages) {
+var isAuthenticated = function(req, res, next){
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	res.redirect('/')
+};
+module.exports = function(app, passport, messages) {
 	//show login page
 	app
 	/*
 	MANAGE ADMIN PAGE
 	*/
-	.get('/admin', function (req, res) {
-		var params = [];
-		for (p in req.params) {
-			params.push[req.params[p]];
-		}
-		if (params.length == 0 && req.session.admin) {
-			res.render('admin', {userName: req.session.username});
-		} else {
-			res.redirect('/login');
-		}
-		
+	.get('/admin', isAuthenticated, function (req, res) {
+		res.render('admin', {userName: req.session.username});
 	})
 	.post('/admin', function (req, res) {
 		
@@ -34,6 +30,7 @@ module.exports = function(app, messages) {
 		
 	})
 	.get('/admin/logoff', function (req, res) {
+		req.logout();
 		res.redirect('/login');
 	})
 	/*
